@@ -3,46 +3,12 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
-# Set Dark Theme and Page Configurations (MUST be the first command)
+# Set Page Configurations
 st.set_page_config(
     page_title="Plant Disease Recognition",
     page_icon="🌱",
     layout="centered",  # or "wide"
     initial_sidebar_state="expanded",
-)
-
-# Apply dark theme settings
-st.markdown(
-    """
-    <style>
-        body {
-            background-color: #121212;  /* Dark background */
-            color: #ffffff;  /* Light text color */
-        }
-        .sidebar {
-            background-color: #333333;  /* Sidebar dark background */
-        }
-        .css-1d391kg {
-            background-color: #333333;  /* Sidebar container */
-            color: #ffffff;  /* Sidebar text color */
-        }
-        .stButton>button {
-            background-color: #6200ee;  /* Button color */
-            color: #ffffff;
-            border-radius: 5px;
-        }
-        .stButton>button:hover {
-            background-color: #3700b3;  /* Button hover color */
-        }
-        .stFileUploader {
-            color: #ffffff;  /* File uploader color */
-        }
-        .stMarkdown {
-            color: #ffffff;  /* Markdown text color */
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
 )
 
 # TensorFlow Lite Model Prediction
@@ -121,3 +87,4 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
+
