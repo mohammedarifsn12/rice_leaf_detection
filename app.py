@@ -1,69 +1,98 @@
 import streamlit as st
-import numpy as np
 import tensorflow as tf
+import numpy as np
 from PIL import Image
 
-# Load the quantized model
-interpreter = tf.lite.Interpreter(model_path="model_quantized.tflite")
-interpreter.allocate_tensors()
+# TensorFlow Lite Model Prediction
+def model_prediction(test_image):
+    # Load the quantized model (TensorFlow Lite)
+    interpreter = tf.lite.Interpreter(model_path="model_quantized.tflite")
+    interpreter.allocate_tensors()
 
-# Define class names for rice leaf diseases
-class_names = ['Bacterial leaf blight', 'Brown spot', 'Leaf smut']
-
-# Function to make predictions with the quantized model
-def predict_image(image):
-    # Preprocess the image (resize and normalize)
-    image = image.resize((224, 224))  # Adjust size based on your model's input size
-    image = np.array(image) / 255.0  # Normalize if necessary
-    image = np.expand_dims(image, axis=0)  # Add batch dimension
+    # Preprocess the image
+    image = Image.open(test_image)
+    image = image.resize((224, 224))  # Resize image to match the model input size
+    image_array = np.array(image) / 255.0  # Normalize
+    image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
 
     # Prepare input and output tensors
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    # Set input tensor
-    interpreter.set_tensor(input_details[0]['index'], image.astype(np.float32))
+    interpreter.set_tensor(input_details[0]['index'], image_array.astype(np.float32))
 
     # Run inference
     interpreter.invoke()
 
     # Get the prediction
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    return output_data
+    return np.argmax(output_data)  # Return index of the max element
 
-# Streamlit UI
-st.title('Rice Leaf Disease Detection with Quantized Model')
+# Sidebar
+st.sidebar.title("Dashboard")
+app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recognition"])
 
-st.markdown("### Upload an image to make predictions")
+# Home Page
+if app_mode == "Home":
+    st.header("PLANT DISEASE RECOGNITION SYSTEM")
+    image_path = "home_page.jpeg"
+    st.image(image_path, use_column_width=True)
+    st.markdown("""
+    Welcome to the Plant Disease Recognition System! 🌿🔍
+    
+    Our mission is to help in identifying plant diseases efficiently. Upload an image of a plant, and our system will analyze it to detect any signs of diseases. Together, let's protect our crops and ensure a healthier harvest!
 
-# File uploader with an image preview
-uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+    ### How It Works
+    1. **Upload Image:** Go to the **Disease Recognition** page and upload an image of a plant with suspected diseases.
+    2. **Analysis:** Our system will process the image using advanced algorithms to identify potential diseases.
+    3. **Results:** View the results and recommendations for further action.
 
-if uploaded_file is not None:
-    # Display the uploaded image
-    image = Image.open(uploaded_file)
-    st.image(image, caption='Uploaded Image', use_column_width=True)
+    ### Why Choose Us?
+    - **Accuracy:** Our system utilizes state-of-the-art machine learning techniques for accurate disease detection.
+    - **User-Friendly:** Simple and intuitive interface for seamless user experience.
+    - **Fast and Efficient:** Receive results in seconds, allowing for quick decision-making.
 
-    # Show a button to make predictions
-    if st.button('Predict'):
-        # Make prediction using the quantized model
-        prediction = predict_image(image)
+    ### Get Started
+    Click on the **Disease Recognition** page in the sidebar to upload an image and experience the power of our Plant Disease Recognition System!
+    """)
+
+# About Project Page
+elif app_mode == "About":
+    st.header("About")
+    st.markdown("""
+    #### About Dataset
+    This dataset is recreated using offline augmentation from the original dataset. The original dataset can be found on this GitHub repo.
+    This dataset consists of about 87K RGB images of healthy and diseased crop leaves which is categorized into 38 different classes. The total dataset is divided into 80/20 ratio of training and validation set, preserving the directory structure.
+    A new directory containing 33 test images is created later for prediction purposes.
+
+    #### Content
+    1. train (70295 images)
+    2. test (33 images)
+    3. validation (17572 images)
+    """)
+
+# Prediction Page
+elif app_mode == "Disease Recognition":
+    st.header("Disease Recognition")
+    
+    # File uploader to upload images
+    test_image = st.file_uploader("Choose an Image:")
+    
+    # Display image after upload
+    if test_image is not None:
+        st.image(test_image, width=400, use_column_width=True)
+    
+    # Predict button
+    if st.button("Predict"):
+        st.snow()  # Adds a snow effect while prediction is running
+        st.write("Our Prediction:")
         
-        # Find the predicted class index using argmax
-        predicted_class_index = np.argmax(prediction)
-
-        # Display the predicted class name
-        predicted_class = class_names[predicted_class_index]
+        # Get the predicted class index from the model
+        result_index = model_prediction(test_image)
         
-        # Display the results
-        st.markdown(f"### Prediction: {predicted_class}")
-        st.markdown(f"Prediction Probability: {prediction[0][predicted_class_index]:.4f}")
+        # List of class names for plant diseases (update this list based on your actual classes)
+        class_names = ['Bacterial leaf blight', 'Brown spot', 'Leaf smut']  # Update with your actual class names
 
-        # Display the prediction array (optional)
-        st.write("Raw Prediction Output:")
-        st.write(prediction)
-
-        # Provide a message if no clear prediction
-        if prediction[0][predicted_class_index] < 0.5:  # Adjust threshold if needed
-            st.warning("The model is not confident in this prediction.")
+        # Display the prediction
+        st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
 
