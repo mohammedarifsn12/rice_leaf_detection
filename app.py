@@ -11,20 +11,34 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Apply dark theme settings (if not using config.toml)
+# Apply dark theme settings
 st.markdown(
     """
     <style>
         body {
-            background-color: #000000;
-            color: #FFFFFF;
+            background-color: #121212;  /* Dark background */
+            color: #ffffff;  /* Light text color */
         }
         .sidebar {
-            background-color: #333333;
+            background-color: #333333;  /* Sidebar dark background */
         }
         .css-1d391kg {
-            background-color: #333333;
-            color: #FFFFFF;
+            background-color: #333333;  /* Sidebar container */
+            color: #ffffff;  /* Sidebar text color */
+        }
+        .stButton>button {
+            background-color: #6200ee;  /* Button color */
+            color: #ffffff;
+            border-radius: 5px;
+        }
+        .stButton>button:hover {
+            background-color: #3700b3;  /* Button hover color */
+        }
+        .stFileUploader {
+            color: #ffffff;  /* File uploader color */
+        }
+        .stMarkdown {
+            color: #ffffff;  /* Markdown text color */
         }
     </style>
     """,
@@ -58,7 +72,7 @@ def model_prediction(test_image):
 
 # Sidebar
 st.sidebar.title("Dashboard")
-app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recognition"])
+app_mode = st.sidebar.selectbox("Select Page", ["Home", "Disease Recognition"])
 
 # Home Page (No Image)
 if app_mode == "Home":
@@ -81,21 +95,6 @@ if app_mode == "Home":
 
     ### Get Started
     Click on the **Disease Recognition** page in the sidebar to upload an image and experience the power of our Plant Disease Recognition System!
-    """)
-
-# About Project Page
-elif app_mode == "About":
-    st.header("About")
-    st.markdown("""
-    #### About Dataset
-    This dataset is recreated using offline augmentation from the original dataset. The original dataset can be found on this GitHub repo.
-    This dataset consists of about 87K RGB images of healthy and diseased crop leaves, which are categorized into 38 different classes. The total dataset is divided into an 80/20 ratio of training and validation set, preserving the directory structure.
-    A new directory containing 33 test images is created later for prediction purposes.
-
-    #### Content
-    1. train (70295 images)
-    2. test (33 images)
-    3. validation (17572 images)
     """)
 
 # Prediction Page
@@ -122,6 +121,5 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
-
 
 
