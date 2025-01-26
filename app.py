@@ -63,28 +63,44 @@ if app_mode == "Home":
     Click on the **Disease Recognition** page in the sidebar to upload an image and experience the power of our Plant Disease Recognition System!
     """)
 
-# Prediction Page
+# Prediction Page - Disease Recognition
 elif app_mode == "Disease Recognition":
-    st.header("Disease Recognition")
+    st.header("🌸 **Disease Recognition** 🌸")
+
+    # Display a message that only supports image files
+    st.markdown(
+        """
+        **Please upload a valid image file** (JPEG, PNG, or JPG) of a plant leaf to check for potential diseases.  
+        The system will analyze the image and predict the plant disease. 🌿🔬
+        """
+    )
     
     # File uploader to upload images
-    test_image = st.file_uploader("Choose an Image:")
+    test_image = st.file_uploader(
+        "Choose an Image:", 
+        type=["jpeg", "png", "jpg"],  # Only accept image files
+        label_visibility="visible"
+    )
     
     # Display image after upload
     if test_image is not None:
         st.image(test_image, width=400, use_container_width=True)
     
     # Predict button
-    if st.button("Predict"):
-        st.snow()  # Adds a snow effect while prediction is running
-        st.write("Our Prediction:")
-        
-        # Get the predicted class index from the model
-        result_index = model_prediction(test_image)
-        
-        # List of class names for plant diseases (update this list based on your actual classes)
-        class_names = ['Bacterial leaf blight', 'Brown spot', 'Leaf smut']  # Update with your actual class names
+    if st.button("🔍 **Predict Disease**"):
+        if test_image:
+            st.snow()  # Adds a snow effect while prediction is running
+            st.write("**Our Prediction**:")
 
-        # Display the prediction
-        st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
+            # Get the predicted class index from the model
+            result_index = model_prediction(test_image)
+            
+            # List of class names for plant diseases (update this list based on your actual classes)
+            class_names = ['Bacterial leaf blight', 'Brown spot', 'Leaf smut']  # Update with your actual class names
+
+            # Display the prediction
+            st.success(f"🌟 **Prediction:** This plant shows signs of **{class_names[result_index]}**!")
+        else:
+            st.error("⚠️ Please upload an image file before clicking 'Predict'.")
+
 
