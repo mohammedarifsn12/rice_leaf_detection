@@ -5,7 +5,7 @@ from PIL import Image
 
 # Set Page Configurations
 st.set_page_config(
-    page_title="Plant Disease Recognition",
+    page_title="Rice Leaf Disease Recognition",
     page_icon="🌱",
     layout="centered",  # or "wide"
     initial_sidebar_state="expanded",
@@ -42,10 +42,10 @@ app_mode = st.sidebar.selectbox("Select Page", ["Home", "Disease Recognition"])
 
 # Home Page with Description
 if app_mode == "Home":
-    st.header("PLANT DISEASE RECOGNITION SYSTEM")
+    st.header("RICE LEAF DISEASE RECOGNITION SYSTEM")
     
     st.markdown("""
-    Welcome to the Plant Disease Recognition System! 🌿🔍
+    Welcome to the Rice Leaf Disease Recognition System! 🌿🔍
 
     Our mission is to help in identifying plant diseases efficiently. Upload an image of a plant, and our system will analyze it to detect any signs of diseases. Together, let's protect our crops and ensure a healthier harvest!
 
@@ -70,7 +70,7 @@ elif app_mode == "Disease Recognition":
     # Display a message that only supports image files
     st.markdown(
         """
-        **Please upload a valid image file** (JPEG, PNG, or JPG) of a plant leaf to check for potential diseases.  
+        **Please upload a valid image file** (JPEG, PNG, or JPG) of a Rice leaf to check for potential diseases.  
         The system will analyze the image and predict the plant disease. 🌿🔬
         """
     )
