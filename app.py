@@ -74,7 +74,7 @@ def model_prediction(test_image):
 st.sidebar.title("Dashboard")
 app_mode = st.sidebar.selectbox("Select Page", ["Home", "Disease Recognition"])
 
-# Home Page (No Image)
+# Home Page with Description
 if app_mode == "Home":
     st.header("PLANT DISEASE RECOGNITION SYSTEM")
     
@@ -121,5 +121,6 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
+
 
 
