@@ -3,6 +3,34 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
+# Set Dark Theme and Page Configurations
+st.set_page_config(
+    page_title="Plant Disease Recognition",
+    page_icon="🌱",
+    layout="centered",  # or "wide"
+    initial_sidebar_state="expanded",
+)
+
+# Apply dark theme settings (if not using config.toml)
+st.markdown(
+    """
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        .sidebar {
+            background-color: #333333;
+        }
+        .css-1d391kg {
+            background-color: #333333;
+            color: #FFFFFF;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # TensorFlow Lite Model Prediction
 def model_prediction(test_image):
     # Load the quantized model (TensorFlow Lite)
@@ -31,34 +59,6 @@ def model_prediction(test_image):
 # Sidebar
 st.sidebar.title("Dashboard")
 app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recognition"])
-
-# Set Dark Theme using Streamlit config.toml or programmatically (if not already set)
-st.set_page_config(
-    page_title="Plant Disease Recognition",
-    page_icon="🌱",
-    layout="centered",  # or "wide"
-    initial_sidebar_state="expanded",
-)
-
-# Apply dark theme settings (if not using config.toml)
-st.markdown(
-    """
-    <style>
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-        }
-        .sidebar {
-            background-color: #333333;
-        }
-        .css-1d391kg {
-            background-color: #333333;
-            color: #FFFFFF;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 
 # Home Page (No Image)
 if app_mode == "Home":
@@ -122,5 +122,6 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
+
 
 
