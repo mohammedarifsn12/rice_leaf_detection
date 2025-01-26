@@ -104,3 +104,4 @@ elif app_mode == "Disease Recognition":
             st.error("⚠️ Please upload an image file before clicking 'Predict'.")
 
 
+
