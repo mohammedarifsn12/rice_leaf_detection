@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
-# Set Dark Theme and Page Configurations
+# Set Dark Theme and Page Configurations (MUST be the first command)
 st.set_page_config(
     page_title="Plant Disease Recognition",
     page_icon="🌱",
@@ -121,6 +121,3 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
-
-
-
