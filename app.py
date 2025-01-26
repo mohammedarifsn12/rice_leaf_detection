@@ -32,14 +32,41 @@ def model_prediction(test_image):
 st.sidebar.title("Dashboard")
 app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recognition"])
 
-# Home Page
+# Set Dark Theme using Streamlit config.toml or programmatically (if not already set)
+st.set_page_config(
+    page_title="Plant Disease Recognition",
+    page_icon="🌱",
+    layout="centered",  # or "wide"
+    initial_sidebar_state="expanded",
+)
+
+# Apply dark theme settings (if not using config.toml)
+st.markdown(
+    """
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        .sidebar {
+            background-color: #333333;
+        }
+        .css-1d391kg {
+            background-color: #333333;
+            color: #FFFFFF;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Home Page (No Image)
 if app_mode == "Home":
     st.header("PLANT DISEASE RECOGNITION SYSTEM")
-    image_path = "home_page.jpeg"
-    st.image(image_path, use_column_width=True)
+    
     st.markdown("""
     Welcome to the Plant Disease Recognition System! 🌿🔍
-    
+
     Our mission is to help in identifying plant diseases efficiently. Upload an image of a plant, and our system will analyze it to detect any signs of diseases. Together, let's protect our crops and ensure a healthier harvest!
 
     ### How It Works
@@ -62,7 +89,7 @@ elif app_mode == "About":
     st.markdown("""
     #### About Dataset
     This dataset is recreated using offline augmentation from the original dataset. The original dataset can be found on this GitHub repo.
-    This dataset consists of about 87K RGB images of healthy and diseased crop leaves which is categorized into 38 different classes. The total dataset is divided into 80/20 ratio of training and validation set, preserving the directory structure.
+    This dataset consists of about 87K RGB images of healthy and diseased crop leaves, which are categorized into 38 different classes. The total dataset is divided into an 80/20 ratio of training and validation set, preserving the directory structure.
     A new directory containing 33 test images is created later for prediction purposes.
 
     #### Content
@@ -80,7 +107,7 @@ elif app_mode == "Disease Recognition":
     
     # Display image after upload
     if test_image is not None:
-        st.image(test_image, width=400, use_column_width=True)
+        st.image(test_image, width=400, use_container_width=True)
     
     # Predict button
     if st.button("Predict"):
@@ -95,4 +122,5 @@ elif app_mode == "Disease Recognition":
 
         # Display the prediction
         st.success(f"Model predicts the plant disease is: {class_names[result_index]}")
+
 
