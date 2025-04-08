@@ -2,7 +2,7 @@
 The rice leaf suffers from several bacterial, viral, or fungal diseases and these diseases reduce rice production significantly. To sustain rice demand for a vast population globally.The rice leaves related diseases often pose threats to the sustainable production of rice affecting many farmers around the world. Early diagnosis and appropriate remedy of the rice leaf infection is crucial in facilitating healthy growth of the rice plants to ensure adequate supply and food security to the rapidly increasing population.
 
 # Rice Leaf Disease:
-![Alt Text](https://user-images.githubusercontent.com/101791322/177773523-fbb6bcbe-81ff-4805-a34d-b655083de8de.png)
+![Alt Text](https://user-images.githubusercontent.com/101791322/177773023-a8114cb6-c1c4-497b-b51f-de9baef4e8d5.png)
 
 
 # DATA SUMMARY
@@ -29,7 +29,7 @@ This dataset contains 120 jpg images of disease infected rice leaves. The images
 - In this step generate the batches of training and validation and pre-process the images
 
 # PLOTTING TRAINING IMAGES:
-image
+![Alt Text](https://user-images.githubusercontent.com/101791322/177773523-fbb6bcbe-81ff-4805-a34d-b655083de8de.png)
 
 # MODEL BUILDING
 - In this step we create CNN model architecture in that three types of layers convolution layer, pooling layer, And fully connected layer are added.
@@ -46,4 +46,5 @@ image
 #MODEL TESTING:
 - In this step we are create a function to test multiple images from test data.
 
-image
+![Alt Text](https://user-images.githubusercontent.com/101791322/177774011-ba9942b4-ab73-40cf-a3db-8c5db75a64df.png)
+
